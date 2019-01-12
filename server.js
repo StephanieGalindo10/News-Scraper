@@ -7,8 +7,8 @@ var logger = require("morgan");
 var cheerio = require("cheerio");
 var request = require("request");
 
-// set up express app
-// =============================================================
+// set up express app///
+// ===================================
 const PORT = process.env.PORT || 3000;
 let app = express();
 
@@ -26,6 +26,7 @@ app
 
 
     // Mongoose///
+// ===================================
 
 var Note = require("./models/Note");
 var Article = require("./models/Article");
@@ -51,6 +52,7 @@ db.once("open", function() {
 
 
 //set engine and default for handlebars
+// ===================================
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
@@ -70,5 +72,8 @@ var port = process.env.PORT || 3001;
 app.listen(port, function() {
   console.log("app running on port " + port);
 });
+
+
+
 
 module.exports = app;
