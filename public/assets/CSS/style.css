@@ -1,43 +1,67 @@
-body{
-    background: url('../img/motivo3-01.jpg') repeat;
-    background-size: 600px;
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  
-  main{
-    flex: 1 0 auto;
-  }
-  
-  .articleBody{
-    height: 200px;
-    font-size: 20px;
-    overflow-y: scroll;
-    line-height: 150%;
-  }
-  
-  #nameComment{
-    /*border-bottom: 2px solid #ec407a;*/
-    font-weight: bold;
-    background: #ec407a;
-    color: white;
-  }
-  
-  /* label focus color */
-  .input-field input[type=text]:focus + label {
-   color: #e91e63;
-  }
-  /* label underline focus color */
-  .input-field input[type=text]:focus {
-   border-bottom: 1px solid #e91e63;
-   box-shadow: 0 1px 0 0 #000;
-  }
-  /* icon prefix focus color */
-  .input-field .prefix.active {
-   color: #ec407a;
-  }
-  
-  
+body {
+	background-image: url(../Image/newyorkcity.jpg);
+	background-position: center;
+	font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Roboto Slab', serif;
+}
+
+.btn-danger {
+  background-color: #722b2b;
+  border-color: #722b2b;
+}
+
+.btn-danger:hover {
+  background-color: #764747;
+  border-color: #764747;
+}
+
+.panel-default>.panel-heading {
+  background-color: #3f3535;
+  color: #fff;
+}
+
+.panel-default {
+  border-color: #3f3535;
+}
+
+.artLink {
+  color: #722b2b;
+}
+
+.saved-buttons {
+  margin-right: 1em;
+}
+
+.noteText {
+  color: #722b2b;
+}
+
+.deletex {
+  color: #722b2b;
+}
+
+.modal-body{
+	background-image: url(../img/nyt-modal-background.jpg);
+	background-size: cover;
+	background-position: center;
+}
+
+.alert-warning {
+	color: #fff;
+	background-color: #722b2b;
+	border-color: #722b2b;
+}
+
+.main-img {
+	margin-bottom: 2em;
+	border-top: 2px solid #3f3535;
+	border-bottom: 2px solid #3f3535;
+}
+
+.savedArt {
+	margin: 0 auto;
+	width: 80%;
+}
