@@ -1,58 +1,44 @@
 var express = require("express");
-var method = require("method-override");
-var body = require("body-parser");
-var exphbs = require("express-handlebars");
+var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
-var logger = require("morgan");
-var cheerio = require("cheerio");
-var request = require("request");
+var exphbs = require("express-handlebars");
+// Requiring our Note and Article models
+var Note = require("./models/Note.js");
+var Article = require("./models/Article.js");
+// Set mongoose to leverage built in JavaScript ES6 Promises
+mongoose.Promise = Promise;
 
-// set up express app///
-// ===================================
-const PORT = process.env.PORT || 3000;
-let app = express();
+// Initialize Express
+var app = express();
 
-app
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended:true }))
-    .use(bodyParser.text())
-    .use(bodyParser.json({ type: 'application/vnd.api+json' }))
-    .use(methodOverride('_method'))
-    .use(logger('dev'))
-    .use(express.static(__dirname + '/public'))
-    .engine('handlebars', exphbs({ defaultLayout: 'main' }))
-    .set('view engine', 'handlebars')
-    .use(require('./controllers'));
+// Use body parser with our app
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
 
+// Make public a static dir
+app.use(express.static(process.cwd() + "/public"));
 
-    // Mongoose///
-// ===================================
-
-var Note = require("./models/Note");
-var Article = require("./models/Article");
-var databaseUrl = 'mongodb://localhost/scrap';
+// Database configuration with mongoose
+var databaseUri = "mongodb://localhost/mongoosearticles";
 
 if (process.env.MONGODB_URI) {
-	mongoose.connect(process.env.MONGODB_URI);
+  mongoose.connect(process.env.MONGODB_URI);
+} else {
+  mongoose.connect(databaseUri);
 }
-else {
-	mongoose.connect(databaseUrl);
-};
 
-mongoose.Promise = Promise;
 var db = mongoose.connection;
 
 db.on("error", function(error) {
-	console.log("Mongoose Error: ", error);
+  console.log("Mongoose Error: ", error);
 });
 
 db.once("open", function() {
-	console.log("Mongoose connection successful.");
+  console.log("Mongoose connection sucessful.");
 });
 
-
 //set engine and default for handlebars
-// ===================================
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
@@ -72,8 +58,3 @@ var port = process.env.PORT || 3001;
 app.listen(port, function() {
   console.log("app running on port " + port);
 });
-
-
-
-
-module.exports = app;
