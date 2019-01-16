@@ -2,7 +2,7 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var exphbs  = require('express-handlebars');
-d
+
 // It works on the client and on the server
 var axios = require("axios");
 var cheerio = require("cheerio");
