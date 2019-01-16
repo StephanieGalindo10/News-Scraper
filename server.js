@@ -1,50 +1,94 @@
 
-const express = require('express'),
-      exphbs = require('express-handlebars'),
-      bodyParser = require('body-parser'),
-      logger = require('morgan'),
-      mongoose = require('mongoose'),
-      methodOverride = require('method-override');
+var express = require("express");
+var mongoose = require("mongoose");
+var exphbs  = require('express-handlebars');
+// Our scraping tools
+// Axios is a promised-based http library, similar to jQuery's Ajax method
+// It works on the client and on the server
+var axios = require("axios");
+var cheerio = require("cheerio");
 
-const PORT = process.env.PORT || 3000;
-let app = express();
+// Require all models
+var db = require("./models");
 
-app
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended:true }))
-    .use(bodyParser.text())
-    .use(bodyParser.json({ type: 'application/vnd.api+json' }))
-    .use(methodOverride('_method'))
-    .use(logger('dev'))
-    .use(express.static(__dirname + '/public'))
-    .engine('handlebars', exphbs({ defaultLayout: 'main' }))
-    .set('view engine', 'handlebars')
-    .use(require('./controllers'));
+var PORT = process.env.PORT || 3000;
 
-// configure mongoose and start the server
-// =============================================================
-// set mongoose to leverage promises
-mongoose.Promise = Promise;
+// Initialize Express
+var app = express();
 
-const dbURI = process.env.MONGODB_URI 
-// Database configuration with mongoose
-mongoose.set('useCreateIndex', true)
-mongoose.connect(dbURI, { useNewUrlParser: true });
-
-const db = mongoose.connection;
-
-// Show any mongoose errors
-db.on("error", function(error) {
-    console.log("Mongoose Error: ", error);
+// Configure middleware
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+// Parse request body as JSON
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// Make public a static folder
+app.get('/', function (req, res) {
+  res.render('home');
 });
 
-// Once logged in to the db through mongoose, log a success message
-db.once("open", function() {
-    console.log("Mongoose connection successful.");
-    // start the server, listen on port 3000
-    app.listen(PORT, function() {
-        console.log("App running on port " + PORT);
+// Connect to the Mongo DB
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines"
+mongoose.connect(MONGODB_URI);
+// Routes
+
+
+
+
+app.get("/scrape", function(req, res) {
+
+
+  // First, we grab the body of the html with axios
+  axios.get("https://www.sacbee.com/sports/").then(function(response) {
+    // Then, we load that into cheerio and save it to $ for a shorthand selector
+    var $ = cheerio.load(response.data);
+
+    // Now, we grab every h2 within an article tag, and do the following:
+    $(".title").each(function(i, element) {
+      // Save an empty result object
+      var result = {};
+      
+      // Add the text and href of every link, and save them as properties of the result object
+      result.title = $(element)
+        .children("a")
+        .text();
+      result.link = $(element)
+        .children("a")
+        .attr("href");
+      result.summary = "No Summary";
+      // Create a new Article using the `result` object built from scraping
+      
+      db.Article.create(result)
+        .then(function(dbArticle) {
+          // View the added result in the console
+          console.log(dbArticle);
+        })
+        .catch(function(err) {
+          // If an error occurred, log it
+          console.log(err);
+        });
+    });
+
+    // Send a message to the client
+    res.send("Scrape Complete");
+  });
+});
+
+// Route for getting all Articles from the db
+app.get("/articles", function(req, res) {
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      // If we were able to successfully find Articles, send them back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
     });
 });
 
-module.exports = app;
+// Start the server
+app.listen(PORT, function() {
+  console.log("App running on port " + PORT + "!");
+});
