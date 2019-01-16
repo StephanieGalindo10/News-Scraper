@@ -1,60 +1,50 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var mongoose = require("mongoose");
-var exphbs = require("express-handlebars");
-// Requiring our Note and Article models
-var Note = require("./models/Note.js");
-var Article = require("./models/Article.js");
-// Set mongoose to leverage built in JavaScript ES6 Promises
+
+const express = require('express'),
+      exphbs = require('express-handlebars'),
+      bodyParser = require('body-parser'),
+      logger = require('morgan'),
+      mongoose = require('mongoose'),
+      methodOverride = require('method-override');
+
+const PORT = process.env.PORT || 3000;
+let app = express();
+
+app
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended:true }))
+    .use(bodyParser.text())
+    .use(bodyParser.json({ type: 'application/vnd.api+json' }))
+    .use(methodOverride('_method'))
+    .use(logger('dev'))
+    .use(express.static(__dirname + '/public'))
+    .engine('handlebars', exphbs({ defaultLayout: 'main' }))
+    .set('view engine', 'handlebars')
+    .use(require('./controllers'));
+
+// configure mongoose and start the server
+// =============================================================
+// set mongoose to leverage promises
 mongoose.Promise = Promise;
 
-// Initialize Express
-var app = express();
-
-// Use body parser with our app
-app.use(bodyParser.urlencoded({
-   extended: false
-}));
-
-// Make public a static dir
-app.use(express.static(process.cwd() + "/public"));
-
+const dbURI = process.env.MONGODB_URI 
 // Database configuration with mongoose
-var databaseUri = "mongodb://localhost/mongoosearticles";
+mongoose.set('useCreateIndex', true)
+mongoose.connect(dbURI, { useNewUrlParser: true });
 
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI);
-} else {
-  mongoose.connect(databaseUri);
-}
+const db = mongoose.connection;
 
-var db = mongoose.connection;
-
+// Show any mongoose errors
 db.on("error", function(error) {
-  console.log("Mongoose Error: ", error);
+    console.log("Mongoose Error: ", error);
 });
 
+// Once logged in to the db through mongoose, log a success message
 db.once("open", function() {
-  console.log("Mongoose connection sucessful.");
+    console.log("Mongoose connection successful.");
+    // start the server, listen on port 3000
+    app.listen(PORT, function() {
+        console.log("App running on port " + PORT);
+    });
 });
 
-//set engine and default for handlebars
-app.engine("handlebars", exphbs({ defaultLayout: "main" }));
-app.set("view engine", "handlebars");
-
-// Import routes and give the server access to them.
-var router = express.Router();
-
-// Require routes file pass router object
-require("./config/routes")(router);
-
-// Have every request go through router middlewar
-app.use(router);
-
-//set port
-var port = process.env.PORT || 3001;
-
-//setup listener
-app.listen(port, function() {
-  console.log("app running on port " + port);
-});
+module.exports = app;
