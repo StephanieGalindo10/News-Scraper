@@ -20,11 +20,20 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars');
 
 //connecting to MongoDB
-mongoose.connect('mongodb://heroku_jxkjhg1v:6s68tem51mlionrj2sneb7b53c@ds127988.mlab.com:27988/heroku_jxkjhg1v');
 
-//mongoose.connect('mongodb://localhost/scraped_news');
+// Mongoose (orm) connects to our mongo db and allows us to have access to the MongoDB commands for easy CRUD 
+mongoose.connect("mongodb://heroku_f9jqr8qs:efv0pqfn8qdqhqcv7k6fr8fhg@ds161039.mlab.com:61039/heroku_f9jqr8qs");
+var db = mongoose.connection;
 
+// if any errors than console errors
+db.on("error", function (error) {
+  console.log("Mongoose Error: ", error);
+});
 
+// display a console message when mongoose has a conn to the db
+db.once("open", function () {
+  console.log("Mongoose connection successful.");
+});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
