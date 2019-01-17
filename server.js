@@ -4,13 +4,20 @@ var mongoose = require("mongoose");
 var exphbs  = require('express-handlebars');
 
 ///the server
+
+var PORT = process.env.PORT || 3000;
+
+var app = express();
+
+var routes = require("./routes");
+
+
+
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 
 var db = require("./models")
-
-var PORT = process.env.PORT || 3000;
 
 
 var app = express();
@@ -31,13 +38,16 @@ mongoose.connect(MONGODB_URI);
 // Routes
 
 
+app.use(routes);
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
+mongoose.connect(MONGODB_URI);
 
 app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.get("/scrape", function(req, res) {
+app.get("/scrape)", function(req, res) {
   console.log('WE are in scrape -----------------')
 
   // First, we grab the body of the html with axios

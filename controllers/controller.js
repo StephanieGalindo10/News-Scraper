@@ -1,5 +1,5 @@
 var scrape = require("../scripts/scrape");
-var Article = require("../models/Article");
+var Article = require("./models/Articles");
 
 module.exports = {
   fetch: function(callback) {
