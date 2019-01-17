@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 
-//require request and cheerio to scrape
+
 var request = require('request');
 var cheerio = require('cheerio');
 
-//Require models
+
 var Comment = require('../models/Comment.js');
 var Article = require('../models/Articles');
 
-//index
+//index for router
 router.get('/', function(req, res) {
     res.redirect('/articles');
 });
@@ -27,7 +27,7 @@ router.get('/', function(req, res) {
 //   });
 // });
 
-// A GET request to scrape the Verge website
+// A GET request to scrape 
 router.get('/scrape', function(req, res) {
     // First, we grab the body of the html with request
     request('http://www.thenewyroktimes', function(error, response, html) {
@@ -71,23 +71,25 @@ router.get('/scrape', function(req, res) {
                   }
             });
         }
-        // Log that scrape is working, just the content was missing parts
+        
         else{
           console.log('Article already exists.')
         }
 
           }
-          // Log that scrape is working, just the content was missing parts
+          
           else{
             console.log('Not saved to DB, missing data')
           }
         });
-        // after scrape, redirects to index
+        
         res.redirect('/');
     });
 });
 
-//this will grab every article an populate the DOM
+
+
+
 router.get('/articles', function(req, res) {
     //allows newer articles to be on top
     Article.find().sort({_id: -1})
@@ -102,7 +104,7 @@ router.get('/articles', function(req, res) {
     });
 });
 
-// This will get the articles we scraped from the mongoDB in JSON
+
 router.get('/articles-json', function(req, res) {
     Article.find({}, function(err, doc) {
         if (err) {
@@ -171,7 +173,7 @@ router.post('/comment/:id', function(req, res) {
     body: content
   };
  
-  //using the Comment model, create a new comment
+
   var newComment = new Comment(commentObj);
 
   newComment.save(function(err, doc) {
