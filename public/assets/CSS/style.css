@@ -8,6 +8,10 @@ body{
   flex-direction: column;
 }
 
+body {
+	background-image: url("../Image/newyorktimes.jpg");
+}
+
 main{
   flex: 1 0 auto;
 }
@@ -16,7 +20,7 @@ main{
   height: 200px;
   font-size: 20px;
   overflow-y: scroll;
-  line-height: 150%;
+  line-height: 160%;
 }
 
 #nameComment{
