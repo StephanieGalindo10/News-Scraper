@@ -1,67 +1,41 @@
-body {
-	background-image: url(../Image/newyorkcity.jpg);
-	background-position: center;
-	font-family: 'Roboto', sans-serif;
+body{
+  background: url('../Image/newyorktimes.jpg');
+  background-size: 600px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-h1, h2, h3, h4 {
-	font-family: 'Roboto Slab', serif;
+main{
+  flex: 1 0 auto;
 }
 
-.btn-danger {
-  background-color: #722b2b;
-  border-color: #722b2b;
+.articleBody{
+  height: 200px;
+  font-size: 20px;
+  overflow-y: scroll;
+  line-height: 150%;
 }
 
-.btn-danger:hover {
-  background-color: #764747;
-  border-color: #764747;
+#nameComment{
+  /*border-bottom: 2px solid #ec407a;*/
+  font-weight: bold;
+  background: #ec407a;
+  color: white;
 }
 
-.panel-default>.panel-heading {
-  background-color:yellow;
-  color: #fff;
+/* label focus color */
+.input-field input[type=text]:focus + label {
+ color: #e91e63;
 }
-
-.panel-default {
-  border-color: #3f3535;
+/* label underline focus color */
+.input-field input[type=text]:focus {
+ border-bottom: 1px solid #e91e63;
+ box-shadow: 0 1px 0 0 #000;
 }
-
-.artLink {
-  color: #722b2b;
-}
-
-.saved-buttons {
-  margin-right: 1em;
-}
-
-.noteText {
-  color: #722b2b;
-}
-
-.deletex {
-  color: #722b2b;
-}
-
-.modal-body{
-	background-image: url(../Image/newyorktimes.jpg);
-	background-size: cover;
-	background-position: center;
-}
-
-.alert-warning {
-	color: #fff;
-	background-color: #722b2b;
-	border-color: #722b2b;
-}
-
-.main-img {
-	margin-bottom: 2em;
-	border-top: 2px solid #3f3535;
-	border-bottom: 2px solid #3f3535;
-}
-
-.savedArt {
-	margin: 0 auto;
-	width: 80%;
+/* icon prefix focus color */
+.input-field .prefix.active {
+ color: #ec407a;
 }
