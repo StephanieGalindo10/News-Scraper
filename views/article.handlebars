@@ -1,5 +1,4 @@
-<div class="row"> 
-
+<<div class="row"> 
   <h3 class="card">{{article.title}}</h3>
   <h5 class="card-panel articleBody">{{body}}</h5>
   
@@ -29,7 +28,7 @@
     </form>
 </div>
 
-///// comments ////
+{{!-- comments go here --}}
 <div class="row">
   <div class="col s2"></div>
     <div class="col s8">
@@ -42,14 +41,7 @@
             </div>
           {{/each}}
           {{else}}
-          <p>No Comments.</p>
+          <p>No Comments Yet.</p>
         {{/if}}
-        <div class="articles">
-	<br />
-	<br />
-	<div class='alert alert-warning text-center'>
-	  <h4>Sorry. Looks like we don't have any articles. Hit Scrape up top to get new articles.</h4>
-	</div>
-</div>
     </div>
 </div>
