@@ -1,15 +1,11 @@
 body{
   background: url('../Image/newyorktimes.jpg');
-  background-size: 600px;
+  background-size: 3000px;
   font-family: 'Oswald', sans-serif;
   font-size: 16px;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
-}
-
-body {
-	background-image: url("../Image/newyorktimes.jpg");
 }
 
 main{
