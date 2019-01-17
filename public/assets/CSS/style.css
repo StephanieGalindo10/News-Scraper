@@ -1,5 +1,5 @@
 body{
-  background: url('../Image/newyorktimes.jpg');
+  background: url('../Image/source.gif');
   background-size: 3000px;
   font-family: 'Oswald', sans-serif;
   font-size: 16px;
@@ -12,6 +12,14 @@ main{
   flex: 1 0 auto;
 }
 
+
+
+#nameComment{
+  
+  font-weight: bold;
+  background: rgb(4, 26, 122);
+  color: white;
+}
 .articleBody{
   height: 200px;
   font-size: 20px;
@@ -19,23 +27,16 @@ main{
   line-height: 160%;
 }
 
-#nameComment{
-  /*border-bottom: 2px solid #ec407a;*/
-  font-weight: bold;
-  background: #ec407a;
-  color: white;
-}
-
 /* label focus color */
 .input-field input[type=text]:focus + label {
- color: #e91e63;
+ color: green;
 }
-/* label underline focus color */
+
 .input-field input[type=text]:focus {
  border-bottom: 1px solid #e91e63;
  box-shadow: 0 1px 0 0 #000;
 }
-/* icon prefix focus color */
+
 .input-field .prefix.active {
- color: #ec407a;
+ color: #030825;
 }
