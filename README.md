@@ -16,4 +16,3 @@ mongoose
 body-parser
 cheerio
 request
-morgan
