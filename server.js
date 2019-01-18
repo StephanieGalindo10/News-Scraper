@@ -22,7 +22,7 @@ app.set('view engine', 'handlebars');
 //connecting to MongoDB
 
 // Mongoose (orm) connects to our mongo db and allows us to have access to the MongoDB commands for easy CRUD 
-mongoose.connect("mongodb://heroku_f9jqr8qs:efv0pqfn8qdqhqcv7k6fr8fhg@ds161039.mlab.com:61039/heroku_f9jqr8qs");
+mongoose.connect('mongodb://heroku_jxkjhg1v:6s68tem51mlionrj2sneb7b53c@ds127988.mlab.com:27988/heroku_jxkjhg1v');
 var db = mongoose.connection;
 
 // if any errors than console errors
@@ -42,6 +42,7 @@ db.once('open', function() {
 
 var routes = require('./controllers/controllers');
 app.use('/', routes);
+
 
 var port = process.env.PORT || 3000;
 
